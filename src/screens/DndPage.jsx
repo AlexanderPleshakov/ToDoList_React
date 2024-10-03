@@ -6,12 +6,22 @@ function DndPage() {
       todo: {
          name: 'To Do',
          items: [
-            { id: '1', content: 'First task' },
+            { id: "1", content: 'First task' },
             { id: '2', content: 'Second task' },
+            { id: '3', content: 'Third task' },
+            { id: '4', content: 'Fourth task' }
          ],
       },
       inProgress: {
          name: 'In Progress',
+         items: [],
+      },
+      done: {
+         name: 'Done',
+         items: [],
+      },
+      blocked: {
+         name: 'Blocked',
          items: [],
       },
    });
@@ -47,6 +57,19 @@ function DndPage() {
          });
       }
    };
+
+   const handleDelete = (columnId, itemId) => {
+      const updatedColumn = {
+         ...columns[columnId],
+         items: columns[columnId].items.filter(item => item.id !== itemId),
+      };
+
+      setColumns({
+         ...columns,
+         [columnId]: updatedColumn,
+      });
+   };
+
    return (
       <div style={{
          display: 'flex', justifyContent: 'center',
@@ -74,7 +97,8 @@ function DndPage() {
                                  style={{
                                     background: snapshot.isDraggingOver ?
                                        'lightblue' : 'lightgrey',
-                                    padding: 4,
+                                    padding: 30,
+                                    borderRadius: '20px',
                                     width: 250,
                                     minHeight: 500,
                                  }}
@@ -96,6 +120,10 @@ function DndPage() {
                                                    padding: 16,
                                                    margin: '0 0 8px 0',
                                                    minHeight: '50px',
+                                                   borderRadius: '20px',
+                                                   display: 'flex',
+                                                   alignItems: 'center',
+                                                   justifyContent: 'space-between',
                                                    backgroundColor: snapshot.isDragging
                                                       ? '#263B4A'
                                                       : '#456C86',
@@ -105,6 +133,17 @@ function DndPage() {
                                                 }}
                                              >
                                                 {item.content}
+                                                <button
+                                                   style={{
+                                                      marginLeft: '10px',
+                                                      backgroundColor: 'red',
+                                                      color: 'white',
+                                                      border: 'none',
+                                                      cursor: 'pointer',
+                                                   }}
+                                                   onClick={() => handleDelete(columnId, item.id)}>
+                                                   Delete
+                                                </button>
                                              </div>
                                           );
                                        }}

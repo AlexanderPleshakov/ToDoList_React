@@ -130,3 +130,7 @@ input[type='text'] {
   transform: scale(1.8);
   margin-right: 10px;
 }
+
+.nav-link {
+  border-radius: 20px;
+}
